@@ -1901,3 +1901,16 @@ footer{view-transition-name:mt-foot}
    zdjęciu (bramka pikselowa, próg 3.6). Dosypujemy bieli - napis zostaje chłodny, ale czytelny. */
 .hero-fach{--accent-lit:color-mix(in srgb,var(--accent) 18%,#fff);
            --accent-strong:color-mix(in srgb,var(--accent) 30%,#fff)}
+
+/* --- sekcja „Zasady, których się trzymam" na podstronie O nas: pas w ciemniejszym beżu,
+   żeby trzy jasne sekcje pod rząd się nie zlewały --- */
+.zasady-band{background:var(--paper-2)}
+
+/* --- podstrona O nas: zdjęcie przy rozbudowanym „O mnie" jedzie z tekstem ---
+   Po rozwinięciu opisu (prośba Agaty 01.09.2026) kolumna tekstu jest dużo wyższa
+   niż zdjęcie, więc wyśrodkowane zdjęcie zostawiało pustą dziurę u góry i u dołu.
+   Przyklejone trzyma kadr na wysokości czytanego akapitu. Poniżej 920 px układ
+   i tak schodzi do jednej kolumny - wtedy wraca zwykły przepływ. */
+.o-mnie{align-items:start}
+.o-mnie .split-art{position:sticky;top:96px;aspect-ratio:3/4}
+@media(max-width:920px){.o-mnie .split-art{position:relative;top:auto;aspect-ratio:5/4}}
