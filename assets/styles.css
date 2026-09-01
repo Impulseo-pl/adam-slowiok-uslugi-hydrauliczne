@@ -6,16 +6,16 @@
 
 :root{
   /* PALETA — jasna, architektoniczna, chłodna */
-  --paper:#F4F6F8;          /* główne tło */
-  --paper-2:#E7EBEF;        /* sekcje alternatywne (chłodny jasny szary) */
-  --paper-3:#E7EBEF;        /* delikatne wypełnienia */
+  --paper:#F8F4EC;          /* główne tło - bardzo jasny beż (prośba klienta 01.09.2026) */
+  --paper-2:#F0E9DB;        /* sekcje alternatywne (ciepły jasny beż) */
+  --paper-3:#F0E9DB;        /* delikatne wypełnienia */
   --ink:#15212E;            /* tekst główny — chłodny grafit */
   --ink-soft:#243443;       /* nagłówki drugorzędne */
   --muted:#6B7785;          /* tekst poboczny */
   --line:rgba(21,33,46,.12);/* hairline */
-  --accent:#E8A317;         /* stonowany petrol-slate — jedyny akcent */
-  --accent-d:#C9870C;
-  --accent-soft:rgba(232,163,23,.10);
+  --accent:#1E3A6B;         /* granat - jedyny akcent */
+  --accent-d:#132849;
+  --accent-soft:rgba(30,58,107,.10);
   --dark:#15212E;           /* sekcje ciemne (stopka/CTA) */
 
   /* HOVER ZDJĘĆ — JEDEN standard dla całego silnika (decyzja K. 04.08.2026, artefakt z wariantami).
@@ -1842,17 +1842,62 @@ footer{view-transition-name:mt-foot}
 /* === szary tekst dociągnięty do czytelności (WCAG 4.5 na wszystkich tłach) === */
 :root{--muted:#5F6976;}
 
-/* === akcent-tekst: --accent zostaje żywy (#E8A317, 2.00:1 na #F4F6F8), litera na jasnym tle bierze #845907 === */
-:root{--accent-text:#845907;}
+/* === akcent-tekst: granat #1E3A6B ma 10.2:1 na beżu #F8F4EC, więc litera akcentowa bierze wprost akcent === */
+:root{--accent-text:#1E3A6B;}
 .btn-accent{color:#14171c}
 .nav .nav-links a.btn-accent{color:#14171c}
 .btn-accent[data-accent-d],.cta-d .btn-accent{color:#14171c}
 
-/* === rozróżnienie palety: burgund (odtworzona z rejestru) ===
-   Blokada powtórzeń (13.08.2026): ten sam odcień nie idzie do kolejnych
-   klientów pod rząd. Wybór zapisany w palety-uzyte.json, więc przebudowa
-   tego dema odtworzy DOKŁADNIE ten kolor. */
-:root{--accent:#A85563;--accent-d:#91404F;--accent-soft:rgba(168,85,99,.10);--gold:#A85563;}
+/* === paleta klienta: GRANAT (prośba Agaty 01.09.2026 - zamiast burgundu #A85563) ===
+   ⚠️ Przy przebudowie dema z palety-uzyte.json wróci burgund - ten blok trzeba
+   wtedy nałożyć ponownie. Granat jest tu wyborem klienta, nie losowaniem silnika. */
+:root{--accent:#1E3A6B;--accent-d:#132849;--accent-soft:rgba(30,58,107,.10);--gold:#1E3A6B;}
 .btn-accent{color:#fff}
 .nav .nav-links a.btn-accent{color:#fff}
 .btn-accent[data-accent-d],.cta-d .btn-accent{color:#fff}
+
+/* ============================================================
+   ZMIANY NA PROŚBĘ KLIENTA (01.09.2026, przez Agatę)
+   1) różowe/burgundowe elementy -> GRANAT (bloki :root wyżej)
+   2) białe płaszczyzny -> bardzo jasny beż
+   3) panel CTA: granatowe tło -> baby blue, napisy na granat
+   Blok celowo NA KOŃCU pliku - wygrywa z regułami silnika.
+   ============================================================ */
+
+/* --- 2) BEŻ zamiast bieli: karty, formularz, kafle --- */
+.svc,
+.trust-card,
+.form,
+.form input:focus, .form textarea:focus,
+.obj-tile{background:#FDFBF6}
+
+/* --- domknięcie kontrastu po zmianie akcentu na granat ---
+   Stary akcent (bursztyn) był jasny, więc napis na nim był CIEMNY (#14171c).
+   Granat jest ciemny - napis musi być BIAŁY, inaczej przycisk się zlewa. */
+.btn-accent,
+.nav .nav-links a.btn-accent,
+.nav .nav-links a.btn-accent:hover,
+.nav:not(.nav-solid) .nav-links a.btn-accent:hover,
+.btn-accent[data-accent-d],
+.cta-d .btn-accent,
+.sticky-call .sc-call{color:#fff}
+
+/* --- 3) PANEL CTA („Która z usług Cię interesuje?") — baby blue + granatowe napisy --- */
+.cta{background:#BBD7EF;color:#132849}
+.cta h2{color:#132849}                                  /* 9.9:1 na baby blue */
+.cta p{color:rgba(19,40,73,.82)}                        /* 6.3:1 */
+.cta .eyebrow{color:#132849}                            /* „Współpraca" na granat - prośba klienta */
+.cta .eyebrow::before{background:#132849}
+/* poświata w rogu: na jasnym tle biała, nie akcentowa */
+.cta::before{background:radial-gradient(circle,rgba(255,255,255,.55),transparent 70%)}
+/* przycisk główny: granat na baby blue (biały gubiłby się na jasnym tle) */
+.cta .btn-light{background:#132849;color:#fff;box-shadow:var(--sh-sm)}
+/* telefon obok: kontur granatowy zamiast białego */
+.cta .btn-ghost-cta{color:#132849;border-color:rgba(19,40,73,.45)}
+
+/* --- hero: kicker i akcent H1 na ZDJĘCIU ---
+   Silnik liczy je jako `color-mix(--accent 62%, biel)`. Przy jasnym akcencie (bursztyn,
+   burgund) wychodziło jasno; granat jest ciemny, więc ta sama mieszanka dała 3.02:1 na
+   zdjęciu (bramka pikselowa, próg 3.6). Dosypujemy bieli - napis zostaje chłodny, ale czytelny. */
+.hero-fach{--accent-lit:color-mix(in srgb,var(--accent) 18%,#fff);
+           --accent-strong:color-mix(in srgb,var(--accent) 30%,#fff)}
