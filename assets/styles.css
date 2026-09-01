@@ -1883,11 +1883,12 @@ footer{view-transition-name:mt-foot}
 .sticky-call .sc-call{color:#fff}
 
 /* --- 3) PANEL CTA („Która z usług Cię interesuje?") — bardzo jasny błękit + granatowe napisy
-   01.09.2026 (prośba Agaty): błękit jeszcze jaśniejszy, panel ma być prawie niewidoczny -
-   ledwo chłodniejszy od beżowego tła strony. Napisy zostają w granacie, bez zmian. --- */
-.cta{background:#EDF3FB;color:#132849}
-.cta h2{color:#132849}                                  /* 13.2:1 na jasnym błękicie */
-.cta p{color:rgba(19,40,73,.82)}                        /* 7.7:1 */
+   01.09.2026 (prośba Agaty): najpierw błękit poszedł na prawie niewidoczny (#EDF3FB),
+   potem „odrobinę ciemniejszy, ale odrobinę" - stąd #E2ECF8: o oczko wyraźniejszy od tła
+   strony, panel daje się zauważyć, ale nadal jest delikatny. Napisy bez zmian. --- */
+.cta{background:#E2ECF8;color:#132849}
+.cta h2{color:#132849}                                  /* 12.3:1 na jasnym błękicie */
+.cta p{color:rgba(19,40,73,.82)}                        /* 6.7:1 */
 .cta .eyebrow{color:#132849}                            /* „Współpraca" na granat - prośba klienta */
 .cta .eyebrow::before{background:#132849}
 /* poświata w rogu: na jasnym tle biała, nie akcentowa */
