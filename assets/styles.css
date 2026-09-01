@@ -1860,7 +1860,7 @@ footer{view-transition-name:mt-foot}
    ZMIANY NA PROŚBĘ KLIENTA (01.09.2026, przez Agatę)
    1) różowe/burgundowe elementy -> GRANAT (bloki :root wyżej)
    2) białe płaszczyzny -> bardzo jasny beż
-   3) panel CTA: granatowe tło -> baby blue, napisy na granat
+   3) panel CTA: granatowe tło -> bardzo jasny błękit (prawie niewidoczny), napisy na granat
    Blok celowo NA KOŃCU pliku - wygrywa z regułami silnika.
    ============================================================ */
 
@@ -1882,14 +1882,16 @@ footer{view-transition-name:mt-foot}
 .cta-d .btn-accent,
 .sticky-call .sc-call{color:#fff}
 
-/* --- 3) PANEL CTA („Która z usług Cię interesuje?") — baby blue + granatowe napisy --- */
-.cta{background:#BBD7EF;color:#132849}
-.cta h2{color:#132849}                                  /* 9.9:1 na baby blue */
-.cta p{color:rgba(19,40,73,.82)}                        /* 6.3:1 */
+/* --- 3) PANEL CTA („Która z usług Cię interesuje?") — bardzo jasny błękit + granatowe napisy
+   01.09.2026 (prośba Agaty): błękit jeszcze jaśniejszy, panel ma być prawie niewidoczny -
+   ledwo chłodniejszy od beżowego tła strony. Napisy zostają w granacie, bez zmian. --- */
+.cta{background:#EDF3FB;color:#132849}
+.cta h2{color:#132849}                                  /* 13.2:1 na jasnym błękicie */
+.cta p{color:rgba(19,40,73,.82)}                        /* 7.7:1 */
 .cta .eyebrow{color:#132849}                            /* „Współpraca" na granat - prośba klienta */
 .cta .eyebrow::before{background:#132849}
 /* poświata w rogu: na jasnym tle biała, nie akcentowa */
-.cta::before{background:radial-gradient(circle,rgba(255,255,255,.55),transparent 70%)}
+.cta::before{background:radial-gradient(circle,rgba(30,58,107,.06),transparent 70%)}
 /* przycisk główny: granat na baby blue (biały gubiłby się na jasnym tle) */
 .cta .btn-light{background:#132849;color:#fff;box-shadow:var(--sh-sm)}
 /* telefon obok: kontur granatowy zamiast białego */
