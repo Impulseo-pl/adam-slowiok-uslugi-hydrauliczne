@@ -529,8 +529,11 @@
     }
   }
 
-  /* ---------- 5) MAGNETYCZNE CTA (tylko mysz, maks. 4 px) ---------- */
+  /* ---------- 5) MAGNETYCZNE CTA — WYŁĄCZONE (prośba Agaty 01.09.2026) ----------
+     Klient poprosił, żeby nic się nie ruszało: przycisk dryfował za kursorem o kilka
+     pikseli, a to jedyny ruch, jaki został po zatrzymaniu kart. Podświetlenie zostaje. */
   function prepMagnetic() {
+    if (true) return;                       // ⛔ dryf za kursorem wyłączony na życzenie klienta
     if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
     all('.btn-accent, .btn-light').slice(0, 12).forEach(function (b) {
       b.addEventListener('mousemove', function (ev) {

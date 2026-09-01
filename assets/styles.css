@@ -1917,3 +1917,108 @@ footer{view-transition-name:mt-foot}
 .o-mnie{align-items:start}
 .o-mnie .split-art{position:sticky;top:96px;aspect-ratio:3/4}
 @media(max-width:920px){.o-mnie .split-art{position:relative;top:auto;aspect-ratio:5/4}}
+
+/* ============================================================
+   PANELE STOJĄ W MIEJSCU I SIĘ PODŚWIETLAJĄ (prośba Agaty 01.09.2026)
+   „usuń ruch z tych paneli ruszających się, niech się ładnie podświetlają
+   jak najedzie się na nie kursorem"
+
+   1) przy przewijaniu karty tylko się WYŁANIAJĄ (sama przezroczystość) -
+      zero wjazdu z dołu, zero wjazdu z boku, zero dryfu kadru w kaflu;
+   2) pod kursorem nic nie podskakuje i nic się nie przesuwa;
+   3) zamiast zalania ciemnym granatem klocek ROZŚWIETLA SIĘ: jasny błękit
+      (ten sam ton co panel CTA), granatowa obwódka, miękka poświata,
+      napis zostaje granatowy. Przelot światła zostaje - to jedyna wspólna
+      animacja wszystkich klocków (bramka hover_diag pilnuje, żeby przycisk
+      i karta reagowały tak samo).
+   Blok celowo NA KOŃCU pliku - wygrywa z warstwą ruchu i silnikiem.
+   ============================================================ */
+
+/* --- 1) NIC NIE JEDZIE PRZY PRZEWIJANIU --- */
+.reveal{transform:none}
+.mt-fade{translate:0 0}
+.os-on .proces-os .proces-line > li h3,
+.os-on .proces-os .proces-line > li p{transform:none}
+@supports (animation-timeline: view()){
+  @media (min-width:900px){
+    .mt-para > img{animation:none;height:100%;top:0;translate:0 0;will-change:auto}
+  }
+}
+
+/* --- 2) NIC SIĘ NIE PRZESUWA POD KURSOREM --- */
+.fu-row .fu-name,
+.fu-row:hover .fu-name,
+.fu-row:hover .fu-cta .arr,
+.obj-tile:hover .ot-arr,
+.foot-soc .soc:hover,
+.tile .cap,
+.tile:hover .cap{transform:none}
+
+/* --- 3) PODŚWIETLENIE ZAMIAST CIEMNEGO WYPEŁNIENIA --- */
+@media(hover:hover){
+  .card:hover,.svc:hover,.menu-cat:hover,.prod-card:hover,.pak-card:hover,
+  .faq-item:hover,.obj-tile:hover,.gateway-txt:hover,.trust-card:hover,
+  .op-google:hover,.op-google:focus-visible,
+  .card:focus-visible,.svc:focus-visible,.faq-item:focus-within,.obj-tile:focus-visible{
+    background:#E7EFFA;
+    border-color:rgba(30,58,107,.42);
+    color:#132849;
+    /* silnik rozjaśniał klocek `brightness(1.1)` - przy jasnym tle zjadało to cały
+       błękit (zmierzone: #E7EFFA wychodziło jako 254,255,255, czyli biel).
+       Zostaje zmiana filtra (bramka hover_diag porównuje LISTĘ zmienianych własności),
+       ale taka, która koloru nie wypłukuje. */
+    filter:saturate(1.22);
+    box-shadow:0 0 0 3px rgba(30,58,107,.10),0 12px 30px -20px rgba(19,40,73,.55)}
+  /* treść klocka wraca do granatu - na jasnym tle biały napis byłby niewidoczny */
+  .card:hover *,.svc:hover *,.menu-cat:hover *,.prod-card:hover *,
+  .pak-card:hover *,.faq-item:hover *,.obj-tile:hover *,
+  .gateway-txt:hover *,.trust-card:hover *,.op-google:hover *{
+    color:#132849;border-color:rgba(19,40,73,.20)}
+  .op-google:hover .op-g-ico *{color:inherit}
+  /* wiersze oferty („Zakres prac") - ta sama jasna poświata, bez przesuwania nazwy */
+  .fu-row:hover,.fu-row:focus-within{background:#E7EFFA}
+}
+
+/* --- 4) DŁUŻSZA NAZWA W PASKU („Usługi hydrauliczne" zamiast imienia) ---
+   Nazwa jest o siedem znaków dłuższa niż wcześniejsza, więc na węższych oknach
+   silnik ucinał ją wielokropkiem („USŁUGI …"). Zamiast ucinać - maleje płynnie,
+   a przy naprawdę ciasnym pasku ustępuje dopisek „Brenna". */
+@media(max-width:1180px) and (min-width:1011px){
+  .nav .brand .name{font-size:1.1rem;letter-spacing:.08em}
+  .nav .brand .sub{font-size:.58rem;letter-spacing:.14em;padding-left:.5rem}
+}
+@media(max-width:1010px) and (min-width:681px){
+  .nav .brand .name{font-size:.94rem;letter-spacing:.04em}
+  .nav .brand .sub{display:none}
+  /* Zmierzone (measure-nav): przy 690-820 px pasek potrzebuje ~100 px, ktorych nie ma -
+     nazwa jako jedyny element elastyczny obrywala pierwsza i konczyla sie wielokropkiem
+     („USLUG..."). Odchudzamy menu i przycisk, zamiast ucinac nazwe firmy. */
+  .nav .nav-links{gap:clamp(.45rem,1.2vw,.9rem)}
+  .nav .nav-links a{font-size:.7rem;letter-spacing:.05em}
+  .nav .nav-links a.btn-accent{font-size:.63rem;letter-spacing:.05em;padding:.45rem .7rem}
+}
+/* ostatnie 20 px przed zwinieciem menu w hamburger (681-700) - tu brakowalo juz tylko 6 px */
+@media(max-width:700px) and (min-width:681px){
+  .nav .brand .name{font-size:.86rem;letter-spacing:.02em}
+  .nav .nav-links{gap:.4rem}
+}
+
+/* --- 5) TA SAMA REAKCJA NA KAŻDYM KLOCKU (pomiar bramki hover_diag) ---
+   Przy okazji „niech się ładnie podświetlają" domykamy dwa klocki, które
+   wyłamywały się z reszty (zmierzone, nie na oko):
+   • pytania w „Dobrze wiedzieć" nie miały przelotu światła - w silniku
+     `.faq-item::after` wypadło z listy, więc 6 klocków na stronie głównej
+     reagowało inaczej niż pozostałe;
+   • przycisk „Bezpłatna wycena" w panelu CTA jest granatowy JUŻ w spoczynku,
+     a hover dawał mu dokładnie ten sam granat - tło się nie zmieniało i
+     przycisk wyglądał jak martwy. Teraz rozjaśnia się o jeden ton. */
+.faq-item::after{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(100deg,transparent 32%,rgba(255,255,255,.20) 50%,transparent 68%);
+  translate:-120% 0}
+@media (prefers-reduced-motion:no-preference){
+  .faq-item:hover::after{translate:120% 0;transition:translate .75s var(--mt-ease,cubic-bezier(.16,.84,.44,1))}
+}
+@media(hover:hover){
+  .cta .btn-light:hover,.cta .btn-light:focus-visible{background:#1E3A6B;border-color:#1E3A6B;color:#fff}
+}
